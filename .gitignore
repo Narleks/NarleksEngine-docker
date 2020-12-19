@@ -1,0 +1,6 @@
+# NuclearEngine Docker
+
+# Server documents directory
+.idea/
+public/nuclear/*
+!public/nuclear/.gitkeep

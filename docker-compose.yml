@@ -3,18 +3,6 @@ services:
     redis:
       image: redis:alpine
       container_name: nuclearengine-redis
-
-    mariadb:
-      image: mariadb:10.4
-      container_name: nuclearengine-mariadb
-      working_dir: /nuclearengine
-      volumes:
-        - .:/home/nuclear
-      env_file:
-        - config.env
-      ports:
-        - "3306:3306"
-
     webserver:
       image: nginx:alpine
       container_name: nuclearengine-webserver
@@ -22,9 +10,10 @@ services:
       volumes:
           - ./public:/home/public
           - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      env_file:
+        - config.env
       ports:
        - "80:80"
-
     php-fpm:
       build: docker/php-fpm
       container_name: nuclearengine-php-fpm
@@ -32,13 +21,4 @@ services:
       volumes:
         - ./public:/home/public
         - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
-        
-    phpmyadmin:
-        image: phpmyadmin
-        container_name: phpmyadmin
-        environment:
-        - PMA_HOST=mariadb
-        restart: always
-        ports:
-        - 8080:80
 
